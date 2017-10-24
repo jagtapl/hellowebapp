@@ -1,16 +1,13 @@
 from django.shortcuts import render
+from collection.models import Thing
 
-# Create your views here.
+# the rewritten view!
 def index(request):
-    # this is your new view
-    # defining the variable
-    number = 6
+    things = Thing.objects.all()
 
-    #enclose string in quotes
-    thing = "Thing name"
+    # just getting one object!
+    # things = Thing.objects.filter(name__contains='Hello')
 
-    # passing the variable to the view
     return render(request, 'index.html', {
-	'number': number,
-        'thing' : thing,
+	'things': things,
     })
