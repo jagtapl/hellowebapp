@@ -42,7 +42,7 @@ def edit_thing(request, slug):
 
     #if we're coming to this view from a submitted form
     if request.method == 'POST':
-        # grab the data from the submitted for and apply to 
+        # grab the data from the submitted for and apply to
         # the form
         form = form_class(data=request.POST, instance=thing)
         if form.is_valid():
@@ -64,7 +64,7 @@ def create_thing(request):
 
     # if we're coming from a submitted form, do this
     if request.method == 'POST':
-        # grab the data from the submitted form and 
+        # grab the data from the submitted form and
         # apply to the form
         form = form_class(request.POST)
         if form.is_valid():
@@ -86,4 +86,16 @@ def create_thing(request):
 
     return render(request, 'things/create_thing.html', {
     'form': form,
+    })
+# broswe view
+def browse_by_name(request, initial=None):
+    if initial:
+        things = Thing.objects.filter(name__istartswith=initial)
+        things = things.order_by('name')
+    else:
+        things = Thing.objects.all().order_by('name')
+
+    return render(request, 'search/search.html', {
+        'things': things,
+        'initial': initial
     })
